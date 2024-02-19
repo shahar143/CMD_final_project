@@ -7,6 +7,14 @@ from sklearn.model_selection import cross_val_score
 from sklearn.utils import shuffle
 import random
 
+# Define global variables that will be set later
+algorithm = None
+test_percentage = 0.2
+train_percentage = 0.8
+test_dataset = None
+train_dataset = None
+
+
 def preprocess_datasets(dataset_file):
     # Load your dataset
     df = pd.read_csv(f'{dataset_file}_shuffled.csv')
@@ -16,7 +24,8 @@ def preprocess_datasets(dataset_file):
     train_df, test_df = train_test_split(df, test_size=test_percentage)
     train_df.to_csv(f'{dataset_file}_train.csv', index=False)
     test_df.to_csv(f'{dataset_file}_test.csv', index=False)
-
+    
+# Function definitions for banner
 def calculate_features(row):
     # Assuming 'payload' is the column with the data to analyze. Adjust as necessary.
     payload = str(row['payloads'])  # Adjust if your dataframe has a different column name
