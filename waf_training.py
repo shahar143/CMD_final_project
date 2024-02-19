@@ -33,16 +33,6 @@ def usage():
     print('*            															  ')
     print('*******************************************************************************************\n')
 
-# Define global variables that will be set later
-algorithm = None
-test_percentage = 0.2
-train_percentage = 0.8
-test_dataset = None
-train_dataset = None
-
-# Function definitions for banner
-
-
 
     
 def split_csv(filename):
