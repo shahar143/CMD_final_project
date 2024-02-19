@@ -104,6 +104,10 @@ def choose_algorithm(option):
         from sklearn.ensemble import RandomForestClassifier
         print('[+] \t Algorithm : Random Forest (100 trees)  \n')
         algorithm = RandomForestClassifier(n_estimators=100, max_depth=10, random_state=42)
+    elif option == 6:
+        from sklearn.ensemble import ExtraTreesClassifier
+        print('[+] \t Algorithm : Extra Trees \n')
+        algorithm = ExtraTreesClassifier(n_estimators=100, max_depth=10, random_state=42)
     else:
         return False
 
