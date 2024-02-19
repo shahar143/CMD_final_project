@@ -33,7 +33,18 @@ def usage():
     print('*            															  ')
     print('*******************************************************************************************\n')
 
+# Define global variables that will be set later
+algorithm = None
+test_percentage = 0.2
+train_percentage = 0.8
+test_dataset = None
+train_dataset = None
 
+# Function definitions for banner
+
+
+
+    
 def split_csv(filename):
     global test_percentage
     global train_percentage
@@ -79,6 +90,7 @@ def process_dataset(option):
     return True
 
 
+    
 def choose_algorithm(option):
     global algorithm
     option = int(option)
@@ -106,46 +118,7 @@ def choose_algorithm(option):
         return False
 
     return True
-
-
-def calculate_alphanumeric_ratio(payload):
-    alphanumeric_characters = set('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789')
-    alphanumeric_count = sum(1 for char in payload if char in alphanumeric_characters)
-    payload_length = len(payload)
-    input_length = max(payload_length, 1)  # Avoid division by zero if payload_length is 0
-    alphanumeric_ratio = (alphanumeric_count / input_length) * 10
-    return alphanumeric_ratio
-
-def calculate_input_length(payload):
-    input_length = len(payload)
-    return input_length
-
-def calculate_special_character_ratio(payload):
-    alphanumeric_characters = set('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789')
-    special_count = sum(1 for char in payload if char not in alphanumeric_characters)
-    payload_length = len(payload)
-    input_length = max(payload_length, 1)  # Avoid division by zero if payload_length is 0
-    special_ratio = (special_count / input_length) * 100
-    return special_ratio
-
-
-def calculate_url_weight(url, discovered_malicious):
-    # Define weights for discovered malicious
-    malicious_weights = {
-        "special_character": 10,
-        "attack_word": 50,
-        "unauthorized_resource_access": 200
-    }
-    # Initialize URL weight
-    url_weight = 0
-    # Check if any discovered malicious is present in the URL
-    for malicious in discovered_malicious:
-        if malicious in url:
-            url_weight += malicious_weights.get(malicious, 0)
-
-    return url_weight
-
-
+    
 def choose_dataset(option):
     global test_dataset
     global train_dataset
