@@ -17,18 +17,16 @@ train_dataset = None
 
 def preprocess_datasets(dataset_file):
     # Load your dataset
-    df = pd.read_csv(f'{dataset_file}_shuffled.csv')
+    df = pd.read_csv(dataset_file)
     # Apply the feature calculation across all rows
     df[['payload_len', 'alpha', 'non_alpha', 'attack_feature']] = df.apply(calculate_features, axis=1)
     # Split and save preprocessed datasets
-    train_df, test_df = train_test_split(df, test_size=test_percentage)
-    train_df.to_csv(f'{dataset_file}_train.csv', index=False)
-    test_df.to_csv(f'{dataset_file}_test.csv', index=False)
+    df.to_csv(dataset_file, index=False)
     
 # Function definitions for banner
 def calculate_features(row):
     # Assuming 'payload' is the column with the data to analyze. Adjust as necessary.
-    payload = str(row['payloads'])  # Adjust if your dataframe has a different column name
+    payload = str(row['payload'])  # Adjust if your dataframe has a different column name
     alphanumeric_ratio = calculate_alphanumeric_ratio(payload)
     input_length = calculate_input_length(payload)
     special_character_ratio = calculate_special_character_ratio(payload)
@@ -83,3 +81,7 @@ def calculate_attack_weight(row):
     files_weight = row['files_weight']  # This should be calculated based on your context
     attack_weight = url_weight + payload_weight + manipulation + alphanumeric_ratio + files_weight
     return attack_weight
+
+
+if __name__ == '__main__':
+    preprocess_datasets("queries.csv")

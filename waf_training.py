@@ -1,6 +1,9 @@
 import sys
 import getopt
+import traceback
+
 import pandas as pd
+from pandas import DataFrame
 from sklearn.model_selection import train_test_split
 from sklearn import metrics
 from sklearn.model_selection import cross_val_score
@@ -75,6 +78,8 @@ def process_dataset(option):
         split_csv("CSIC")
     elif option == 3:
         split_csv('CSIC_HTTPParams')
+    elif option == 4:
+        split_csv('queries')
     else:
         return False
     return True
@@ -132,6 +137,10 @@ def choose_dataset(option):
         process_dataset(option)
         dataset_file = 'CSIC_HTTPParams'
         col_names = ['payload_len', 'alpha', 'non_alpha', 'attack_feature', 'label']
+    elif option == 4:
+        process_dataset(option)
+        dataset_file = 'queries'
+        col_names = ['payload_len', 'alpha', 'non_alpha', 'attack_feature', 'label']
     else:
         return False
 
@@ -166,13 +175,15 @@ def train(ds, al, test, train):
     global test_dataset
     global train_dataset
     feature_cols = ['payload_len', 'alpha', 'non_alpha', 'attack_feature']
+    labels = ['label']
 
     X1 = test_dataset[feature_cols]
-    Y1 = test_dataset.label
+    Y1: DataFrame = test_dataset[labels]
     X2 = train_dataset[feature_cols]
     Y2 = train_dataset.label
     algorithm.fit(X2, Y2)
     Y2_pred = algorithm.predict(X1)
+    print(Y1.head)
     #algorithm.fit(X2, Y2)
 
     print('[+] \t Classification accuracy : ', "{:.2f}".format(metrics.accuracy_score(Y1, Y2_pred) * 100), '%\n')
@@ -238,6 +249,8 @@ def start(argv):
     except Exception as e:
         print('Exception !!')
         print(e)
+        traceback.print_exc()
+
 
 
 if __name__ == "__main__":
