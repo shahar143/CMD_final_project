@@ -84,4 +84,4 @@ def calculate_attack_weight(row):
 
 
 if __name__ == '__main__':
-    preprocess_datasets("queries.csv")
+    preprocess_datasets("mergeQueries.csv")

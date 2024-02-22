@@ -79,7 +79,7 @@ def process_dataset(option):
     elif option == 3:
         split_csv('CSIC_HTTPParams')
     elif option == 4:
-        split_csv('queries')
+        split_csv('mergeQueries')
     else:
         return False
     return True
@@ -139,8 +139,8 @@ def choose_dataset(option):
         col_names = ['payload_len', 'alpha', 'non_alpha', 'attack_feature', 'label']
     elif option == 4:
         process_dataset(option)
-        dataset_file = 'queries'
-        col_names = ['payload_len', 'alpha', 'non_alpha', 'attack_feature', 'label']
+        dataset_file = 'mergeQueries'
+        col_names = ['label','payload_len','alpha','non_alpha','attack_feature']
     else:
         return False
 
@@ -174,17 +174,21 @@ def train(ds, al, test, train):
     global algorithm
     global test_dataset
     global train_dataset
-    feature_cols = ['payload_len', 'alpha', 'non_alpha', 'attack_feature']
-    labels = ['label']
+    feature_cols = ['payload_len','alpha','non_alpha','attack_feature']
+    
 
     X1 = test_dataset[feature_cols]
-    Y1: DataFrame = test_dataset[labels]
+    Y1 = test_dataset.label
+    Y1 = Y1.values.ravel()
     X2 = train_dataset[feature_cols]
     Y2 = train_dataset.label
+    Y2 = Y2.values.ravel()
     algorithm.fit(X2, Y2)
     Y2_pred = algorithm.predict(X1)
-    print(Y1.head)
-    #algorithm.fit(X2, Y2)
+    algorithm.fit(X2, Y2)
+	
+	
+	
 
     print('[+] \t Classification accuracy : ', "{:.2f}".format(metrics.accuracy_score(Y1, Y2_pred) * 100), '%\n')
 
@@ -258,3 +262,9 @@ if __name__ == "__main__":
         start(sys.argv[1:])
     except KeyboardInterrupt:
         print("KeyboardInterrupt Exception !! Bye :)")
+
+
+
+        
+
+
